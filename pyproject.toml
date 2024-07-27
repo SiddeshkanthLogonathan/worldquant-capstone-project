@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "worldquant-capstone-project"
+version = "0.1.0"
+description = "Deep Learning in Multi-period portfolio optimization"
+authors = ["Olabode James <jamesolabodes@gmail.com>", "Siddeshkanth Logonathan <siddeshkanth.logonathan@gmail.com>", "Yuhao Shen <ericshenyuhao@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+poethepoet = "*"
+numpy = "^2.0.1"
+yfinance = "^0.2.41"
+matplotlib = "^3.9.1"
+scikit-learn = "^1.5.1"
+jupyter = "^1.0.0"
+pandas = "^2.2.2"
+mediacloud = "^4.1.4"
+
+[tool.poe.tasks]
+install-ltt = "python3 -m pip install light-the-torch"
+run-ltt = "python3 -m light_the_torch install --upgrade torch torchaudio torchvision pytorch_lightning"
+autoinstall-torch = ["install-ltt", "run-ltt"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
