@@ -39,7 +39,7 @@ class PolicyGradient:
         multi_period_horizon=1,
         policy_kwargs=None,
         validation_env=None,
-        batch_size=100,
+        batch_size=64,
         lr=1e-3,
         action_noise=0,
         optimizer=AdamW,
@@ -245,7 +245,11 @@ class PolicyGradient:
             if test
             else self.train_policy.mu(obs, last_actions)
         )
-        policy_loss = -torch.mean(torch.log(torch.prod(torch.sum(mu * price_variations * trf_mu, dim=2), dim=1)))
+        multi_period_return = torch.sum(mu * price_variations * trf_mu, dim=2)
+        portfolio_return = torch.prod(multi_period_return, dim=1)-1
+        portfolio_std = torch.std(multi_period_return, dim=1)
+        sharpe_ratio = portfolio_return/portfolio_std
+        policy_loss = -torch.mean(sharpe_ratio)
         # update policy network
         if test:
             self.test_policy.zero_grad()
