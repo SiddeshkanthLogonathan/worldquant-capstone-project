@@ -466,7 +466,7 @@ class MultiPeriodPortfolioOptimizationEnv(gym.Env):
             tic_data = tic_data[self._features].to_numpy().T
             tic_data = tic_data[..., np.newaxis]
             state = tic_data if state is None else np.append(state, tic_data, axis=2)
-        state = state.transpose((0, 2, 1)) # I don't know why its Transposed here. 
+        state = state.transpose((0, 2, 1))
         info = {
             "tics": self._tic_list,
             "start_time": start_time,

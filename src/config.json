@@ -1,0 +1,55 @@
+{   
+    "lookback_window": 24,
+    "multi_step_horizon": 3,
+    "data_interval": "1mo",
+    "train_test_ratio": 0.4,
+    "random_state_seed": 42,
+    "timeframe": {
+        "bull_market": {
+            "start_date": "2004-01-01",
+            "end_date": "2024-01-01"
+        },
+        "volatile_market": {
+            "start_date": "",
+            "end_date": ""
+        },
+        "slow_stagnant_market": {
+            "start_date": "",
+            "end_date": ""
+        }
+    },
+    "tickers": {
+        "America": {
+            "SP100": [
+                "AAPL", "ABBV", "ABT", "ACN", "ADBE", "AIG", "AMD", "AMGN", "AMT", "AMZN", 
+                "AVGO", "AXP", "BA", "BAC", "BK", "BKNG", "BLK", "BMY", "BRK-B", "C",
+                "CAT", "CHTR", "CL", "CMCSA", "COF", "COP", "COST", "CRM", "CSCO", "CVS",
+                "CVX", "DE", "DHR", "DIS", "DUK", "EMR", "F", "FDX", "GD",
+                "GE", "GILD", "GM", "GOOG", "GOOGL", "GS", "HD", "HON", "IBM", "INTC",
+                "INTU", "JNJ", "JPM", "KO", "LIN", "LLY", "LMT", "LOW", "MA",
+                "MCD", "MDLZ", "MDT", "MET", "META", "MMM", "MO", "MRK", "MS", "MSFT",
+                "NEE", "NFLX", "NKE", "NVDA", "ORCL", "PEP", "PFE", "PG", "PM",
+                "QCOM", "RTX", "SBUX", "SCHW", "SO", "SPG", "T", "TGT", "TMO", "TMUS",
+                "TSLA", "TXN", "UNH", "UNP", "UPS", "USB", "V", "VZ", "WFC", "WMT",
+                "XOM", "DOW", "PYPL", "KHC"
+            ]
+        },
+        "Europe": {
+            "FTSE100": [
+                "III", "ADM", "AAF", "AAL", "ANTO", "AHT", "ABF", "AZN", "AUTO", "AV.",
+                "BME", "BA.", "BARC", "BDEV", "BEZ", "BKG", "BP.", "BATS", "BT.A", "BNZL",
+                "BRBY", "CNA", "CCH", "CPG", "CTEC", "CRDA", "DARK", "DCC", "DGE", "DPLM",
+                "EZJ", "EDV", "ENT", "EXPN", "FCIT", "FRAS", "FRES", "GLEN", "GSK", "HLN",
+                "HLMA", "HL.", "HIK", "HWDN", "HSBA", "IMI", "IMB", "INF", "IHG", "ICG",
+                "IAG", "ITRK", "JD.", "KGF", "LAND", "LGEN", "LLOY", "LSEG", "LMP", "MNG",
+                "MKS", "MRO", "MNDI", "NG.", "NWG", "NXT", "PSON", "PSH", "PSN", "PHNX",
+                "PRU", "RKT", "REL", "RTO", "RMV", "RIO", "RR.", "SGE", "SBRY", "SDR",
+                "SMT", "SGRO", "SVT", "SHEL", "SN.", "SMDS", "SMIN", "SPX", "SSE", "STAN",
+                "TW.", "TSCO", "ULVR", "UTG", "UU.", "VTY", "VOD", "WEIR", "WTB", "WPP"
+            ]
+        },
+        "Asia": {
+
+        }
+    }
+}

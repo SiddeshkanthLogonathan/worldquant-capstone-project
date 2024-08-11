@@ -126,3 +126,65 @@ class MultiPeriodEIIE(nn.Module):
         cash_bias = last_action[:, :, 0].reshape((batch_size, self.pred_horizon, 1, 1))
         return last_stocks, cash_bias
 
+
+class TimeToVecEmbedding(nn.Module):
+    def __init__(self, k):
+        super(TimeToVecEmbedding, self).__init__()
+        self.k = k
+        self.dense = nn.Linear(in_features=k, out_features=k, bias=True)
+
+    def forward(self, X):
+        X = self.dense(X)
+        time_encoding = torch.sin(X[:, :, 1:]) # Periodic activation function
+        time_encoding = torch.cat([X[:, :, 0].unsqueeze(2), time_encoding], dim=-1)
+        return time_encoding
+
+class MultiPeriodAttentionNetwork(nn.Module):
+    def __init__(self, num_features, num_stocks, num_head=10, num_layers=10, W=24, T=1, device='cpu'):
+        super(MultiPeriodAttentionNetwork, self).__init__()
+        self.device = device
+        self.num_assets = num_stocks + 1
+        self.num_features = num_features
+        self.W = W - T
+        self.T = T
+        self.t2v_enc = TimeToVecEmbedding(k=self.W)
+        self.t2v_dec = TimeToVecEmbedding(k=self.T)
+        self.transformer_block = nn.Transformer(d_model=num_features,
+                                                nhead=num_head,
+                                                num_encoder_layers=num_layers,
+                                                num_decoder_layers=num_layers, 
+                                                batch_first=True)
+        self.fcl = nn.Linear(in_features=num_features*T+T*self.num_assets, out_features=self.num_assets*T)
+        self.dropout = nn.Dropout(p=0.25)
+        self.norm = nn.Softmax(dim=2)
+        
+
+    def mu(self, state, last_action):
+        if isinstance(state, np.ndarray):
+            state = torch.from_numpy(state)
+        state = state.to(self.device).float()
+
+        if isinstance(last_action, np.ndarray):
+            last_action = torch.from_numpy(last_action)
+        last_action = last_action.to(self.device).float()
+
+        state = state.flatten(1,2)
+        state_X = state[:, :, :self.W]
+        state_y = state[:, :, -self.T:]
+        state_X_embedding = self.t2v_enc(state_X)
+        state_X_embedding = torch.permute(state_X_embedding, (0,2,1))
+        state_y_embedding = self.t2v_dec(state_y)
+        state_y_embedding = torch.permute(state_y_embedding, (0,2,1))
+        logits = self.transformer_block(state_X_embedding, state_y_embedding)
+        logits = logits.view(-1, self.T*self.num_features)
+        last_action = last_action.view(-1, self.T*self.num_assets)
+        logits = torch.cat([logits, last_action], dim=1)
+        logits = self.dropout(self.fcl(logits))
+        logits = logits.reshape((-1, self.T, self.num_assets))
+        portfolio_weights = self.norm(logits)
+        return portfolio_weights
+
+    def forward(self, observation, last_action):
+        mu = self.mu(observation, last_action)
+        action = mu.cpu().detach().numpy().squeeze(0)
+        return action
