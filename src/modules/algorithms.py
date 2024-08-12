@@ -39,7 +39,7 @@ class PolicyGradient:
         multi_period_horizon=1,
         policy_kwargs=None,
         validation_env=None,
-        batch_size=64,
+        batch_size=12,
         lr=1e-3,
         action_noise=0,
         optimizer=AdamW,
@@ -245,12 +245,16 @@ class PolicyGradient:
             if test
             else self.train_policy.mu(obs, last_actions)
         )
-        multi_period_return = torch.sum(mu * price_variations * trf_mu, dim=2)
-        portfolio_return = torch.prod(multi_period_return, dim=1)-1
-        portfolio_std = torch.std(multi_period_return, dim=1)
-        sharpe_ratio = portfolio_return/portfolio_std
-        policy_loss = -torch.mean(sharpe_ratio)
-        # update policy network
+
+        price_variations -= 1
+        portfolio_returns = torch.sum(mu*price_variations*trf_mu, dim=2)
+        portfolio_Sigma = self.batch_cov(price_variations)
+        portfolio_variance = (mu@(portfolio_Sigma@torch.permute(mu, (0,2,1)))).sum(dim=2)
+        delta_weights = (mu[:, 1:, :] - mu[:, :-1, :]).abs()
+        portfolio_trade_cost = (0.0025*delta_weights).sum((2,1)).reshape((-1,1))
+        multi_period_objective = portfolio_returns - 1*portfolio_variance - portfolio_trade_cost
+        policy_loss = -torch.mean(multi_period_objective)
+
         if test:
             self.test_policy.zero_grad()
             policy_loss.backward()
@@ -259,3 +263,11 @@ class PolicyGradient:
             self.train_policy.zero_grad()
             policy_loss.backward()
             self.train_optimizer.step()
+
+    def batch_cov(self, mu_returns):
+        B, N, D = mu_returns.size()
+        mean = mu_returns.mean(dim=1).unsqueeze(1)
+        diffs = (mu_returns - mean).reshape(B * N, D)
+        prods = torch.bmm(diffs.unsqueeze(2), diffs.unsqueeze(1)).reshape(B, N, D, D)
+        bcov = prods.sum(dim=1)/(N - 1)  # Unbiased estimate
+        return bcov  # (B, D, D)
