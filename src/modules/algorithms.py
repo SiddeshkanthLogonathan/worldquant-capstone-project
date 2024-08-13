@@ -39,7 +39,7 @@ class PolicyGradient:
         multi_period_horizon=1,
         policy_kwargs=None,
         validation_env=None,
-        batch_size=12,
+        batch_size=64,
         lr=1e-3,
         action_noise=0,
         optimizer=AdamW,
@@ -246,14 +246,17 @@ class PolicyGradient:
             else self.train_policy.mu(obs, last_actions)
         )
 
-        price_variations -= 1
-        portfolio_returns = torch.sum(mu*price_variations*trf_mu, dim=2)
-        portfolio_Sigma = self.batch_cov(price_variations)
-        portfolio_variance = (mu@(portfolio_Sigma@torch.permute(mu, (0,2,1)))).sum(dim=2)
-        delta_weights = (mu[:, 1:, :] - mu[:, :-1, :]).abs()
-        portfolio_trade_cost = (0.0025*delta_weights).sum((2,1)).reshape((-1,1))
-        multi_period_objective = portfolio_returns - 1*portfolio_variance - portfolio_trade_cost
-        policy_loss = -torch.mean(multi_period_objective)
+        # price_variations -= 1
+        # portfolio_returns = torch.sum(mu*price_variations*trf_mu, dim=2)
+        # portfolio_Sigma = self.batch_cov(price_variations)
+        # portfolio_variance = (mu@(portfolio_Sigma@torch.permute(mu, (0,2,1)))).sum(dim=2)
+        # delta_weights = (mu[:, 1:, :] - mu[:, :-1, :]).abs()
+        # portfolio_trade_cost = (0.0025*delta_weights).sum((2,1)).reshape((-1,1))
+        # multi_period_objective = portfolio_returns - 1*portfolio_variance - portfolio_trade_cost
+        # policy_loss = -torch.mean(torch.log(multi_period_objective))
+        policy_loss = -torch.mean(
+            torch.log(torch.prod(torch.sum(mu * price_variations * trf_mu, dim=2), dim=1))
+        )
 
         if test:
             self.test_policy.zero_grad()

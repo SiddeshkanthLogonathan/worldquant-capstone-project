@@ -199,6 +199,15 @@ class ConvolutionalEmbedding(nn.Module):
         conv_tokens = self.convolution(X)
         return conv_tokens
 
+class ConvolutionalEmbedding(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size=(1,1)):
+        super(ConvolutionalEmbedding, self).__init__()
+        self.convolution = nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size)
+
+    def forward(self, X):
+        conv_tokens = self.convolution(X)
+        return conv_tokens
+
 class MultiPeriodConvAttentionNetwork(nn.Module):
     def __init__(self, num_stocks, num_features, W, T, num_layers=10, device="cpu"):
         super(MultiPeriodConvAttentionNetwork, self).__init__()
@@ -206,18 +215,14 @@ class MultiPeriodConvAttentionNetwork(nn.Module):
         num_assets = num_stocks + 1
         self.W = W
         self.T = T
-        target_size =  17
         self.state_conv_tokenization = ConvolutionalEmbedding(in_channels=num_features,
-                                                         out_channels=6,
-                                                         kernel_size=(num_assets-target_size,1))
+                                                         out_channels=1,
+                                                         kernel_size=(1,1))
         self.last_action_tokenization = ConvolutionalEmbedding(in_channels=1,
-                                                               out_channels=1)
-        self.encoder_state = nn.TransformerEncoder(encoder_layer=nn.TransformerEncoderLayer(d_model=num_assets, nhead=1, batch_first=True), num_layers=num_layers)
-        self.encoder_last_action = nn.TransformerEncoder(encoder_layer=nn.TransformerEncoderLayer(d_model=num_assets, nhead=1, batch_first=True), num_layers=num_layers)
-        n_size = self.T+self.W
-        self.convolutional_final = nn.Conv2d(in_channels=1, out_channels=self.T, kernel_size=(n_size, 1))
+                                                               out_channels=1,
+                                                               kernel_size=(1, 1))
+        self.encoder = nn.TransformerEncoder(encoder_layer=nn.TransformerEncoderLayer(d_model=num_assets, nhead=1, batch_first=True), num_layers=num_layers)
         self.decoder = nn.TransformerDecoder(decoder_layer=nn.TransformerDecoderLayer(d_model=num_assets, nhead=1, batch_first=True), num_layers=num_layers)
-
         self.norm = nn.Softmax(dim=-1)
 
     def forward(self, observation, last_action):
@@ -226,6 +231,7 @@ class MultiPeriodConvAttentionNetwork(nn.Module):
         return action
 
     def mu(self, state, last_action):
+
         if isinstance(state, np.ndarray):
             state = torch.from_numpy(state)
         state = state.to(self.device).float()
@@ -233,25 +239,16 @@ class MultiPeriodConvAttentionNetwork(nn.Module):
         if isinstance(last_action, np.ndarray):
             last_action = torch.from_numpy(last_action)
         last_action = last_action.to(self.device).float()
-        
+ 
         state_tokens = self.state_conv_tokenization(state)
+        state_tokens = state_tokens.squeeze(1)
+        state_tokens = torch.permute(state_tokens, (0,2,1))
+        cash_bias = torch.zeros_like(state_tokens[:, :, :1])
+        state_tokens = torch.cat([cash_bias, state_tokens], dim=2)
         last_action = last_action.unsqueeze(1)
         last_action_tokens = self.last_action_tokenization(last_action)
         last_action_tokens = last_action_tokens.squeeze(1)
-        state_tokens = state_tokens.flatten(1,2)
-        state_tokens = torch.permute(state_tokens, (0,2,1))
-        state_embeddings = self.encoder_state(state_tokens)
-        last_action_embeddings = self.encoder_last_action(last_action_tokens)
-        state_embeddings = torch.cat([state_embeddings, last_action_embeddings], dim=1)
-        state_embeddings = state_embeddings.unsqueeze(1)
-        state_embeddings = self.convolutional_final(state_embeddings)
-        state_embeddings = state_embeddings.squeeze(2)
+        state_embeddings = self.encoder(state_tokens)
         logits = self.decoder(tgt=last_action_tokens, memory=state_embeddings)
         portfolio_weights = self.norm(logits)
         return portfolio_weights
-    
-    def process_last_action(self, last_action):
-        batch_size = last_action.shape[0]
-        cash_allocation = last_action[:, :, :, 0]
-        cash_allocation = cash_allocation.reshape((batch_size, self.T, 1))
-        return cash_allocation
