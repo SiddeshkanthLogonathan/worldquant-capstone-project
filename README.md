@@ -1,4 +1,4 @@
-# WorldQuant University Capstone Project: Deep Learning in Multi-period portfolio optimization
+# WorldQuant University Capstone Project: Deep Reinforcement Learning in Multi-period portfolio optimization
 
 ## Abstract
 

@@ -16,6 +16,10 @@
         "aex25": {
             "start_date": "2004-01-01",
             "end_date": "2024-01-01"
+        },
+        "sp100": {
+            "start_date": "2014-01-01",
+            "end_date": "2024-06-01"
         }
     },
     "tickers": {
@@ -24,6 +28,19 @@
                 "UNH", "GS", "MSFT", "HD", "CAT", "AMGN", "MCD", "V", "CRM", "AXP",
                 "AAPL", "TRV", "JPM", "HON", "IBM", "PG", "AMZN", "BA", "JNJ", "CVX",
                 "MMM", "MRK", "DIS", "NKE", "WMT", "KO", "DOW", "CSCO", "VZ", "INTC"
+            ],
+            "SP100": [
+                "AAPL", "ABBV", "ABT", "ACN", "ADBE", "AIG", "AMD", "AMGN", "AMT", "AMZN",
+                "AVGO", "AXP", "BA", "BAC", "BK", "BKNG", "BLK", "BMY", "BRK-B", "C",
+                "CAT", "CHTR", "CL", "CMCSA", "COF", "COP", "COST", "CRM", "CSCO", "CVS",
+                "CVX", "DE", "DHR", "DIS", "DOW", "DUK", "EMR", "F", "FDX", "GD",
+                "GE", "GILD", "GM", "GOOG", "GOOGL", "GS", "HD", "HON", "IBM", "INTC",
+                "INTU", "JNJ", "JPM", "KHC", "KO", "LIN", "LLY", "LMT", "LOW", "MA",
+                "MCD", "MDLZ", "MDT", "MET", "META", "MMM", "MO", "MRK", "MS", "MSFT",
+                "NEE", "NFLX", "NKE", "NVDA", "ORCL", "PEP", "PFE", "PG", "PM", "PYPL",
+                "QCOM", "RTX", "SBUX", "SCHW", "SO", "SPG", "T", "TGT", "TMO", "TMUS",
+                "TSLA", "TXN", "UNH", "UNP", "UPS", "USB", "V", "VZ", "WFC", "WMT",
+                "XOM"
             ]
         },
         "Europe": {
