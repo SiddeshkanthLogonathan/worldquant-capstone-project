@@ -15,6 +15,9 @@ scikit-learn = "^1.5.1"
 jupyter = "^1.0.0"
 pandas = "^2.2.2"
 mediacloud = "^4.1.4"
+cvxpy = "^1.5.2"
+serpapi = "^0.1.5"
+load-dotenv = "^0.1.0"
 
 [tool.poe.tasks]
 install-ltt = "python3 -m pip install light-the-torch"
