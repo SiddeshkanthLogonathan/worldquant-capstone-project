@@ -38,7 +38,7 @@ curl -sSL https://install.python-poetry.org | python3 -
 
 ```
 $ poetry install
-$ poetry run poe autoinstall-torch-cuda
+$ poetry run poe autoinstall-torch
 ```
 
 ### Run the project with Poetry
