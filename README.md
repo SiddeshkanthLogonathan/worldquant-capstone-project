@@ -1,4 +1,4 @@
-# WorldQuant University Capstone Project: Deep Reinforcement Learning in Multi-period portfolio optimization
+# WorldQuant University Project: Deep Reinforcement Learning in Multi-period portfolio optimization
 
 ## Abstract
    
@@ -9,7 +9,7 @@ In our paper, we apply Deep Reinforcement Learning approaches to portfolio optim
 ### Multi-Period Portfolio Optimization using Deep RL
 Below are a display of the DRL Portfolios against the Index and a classical Markowitz's Mean Variance strategy for two markets, namely the Dow Jones Industrial Average (DJIA) and the French Market Index (CAC40). The following models are used in the comparison:
 - Deep Reinforcement Learning Agent with a Multi-Period extension of the Ensemble of Identical Independent Evaluators (EIIE) policy function.
-- Deep Reinforcement Learning Agent with a Hybrid-Transformer (Convolutional Embeddings) policy function.
+- Deep Reinforcement Learning Agent with a Hybrid-Transformer (using Convolutional Embeddings) policy function.
 - Stock Market Index / Benchmark
 - Harry Markowitz's Multi-period Mean Variance Optimization.
 
@@ -37,7 +37,6 @@ Below are a display of the DRL Portfolios against the Index and a classical Mark
 | fAPV |	1.492397 |	1.365279 | 2.732473 | 2.825879 |
 | SR |	0.475353 |	0.325570 | 0.760835 | 0.784852 |
 | MDD |	-0.252401 |	-0.282496 | -0.526076 | -0.510508 |
-
 
 
 ### Multi-Period Optimization vs. Single-Period Optimization
