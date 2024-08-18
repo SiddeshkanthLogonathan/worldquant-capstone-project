@@ -278,7 +278,7 @@ class MultiPeriodPortfolioOptimizationEnv(gym.Env):
                     qs.stats.max_drawdown(metrics_df["portfolio_values"])
                 )
             )
-            print("Sharpe ratio: {}".format(qs.stats.sharpe(metrics_df["returns"])))
+            print("Sharpe ratio: {}".format(qs.stats.sharpe(metrics_df["returns"], periods=12)))
             print("=================================")
 
             qs.plots.snapshot(

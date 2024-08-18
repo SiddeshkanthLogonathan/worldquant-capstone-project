@@ -53,6 +53,19 @@ Following below we also demonstrate the difference between a Portfolio of Multi-
 | MDD | -0.356124 |	-0.371382 |	-0.143636 |
 
 
+## Choice of Hyperparameters
+The Hyperparameters that were used for the Agent training are saved in the `config.json` file. 
+The most important parameters are:
+- `Monthly` data frequency.
+- Multi-Period `T` prediction steps of 3. We are predicting weights for the next 3 months of trading. 
+- Time Window of `N` of 24, which is the last 2 years of data.
+- Features of `close`, `high`, `low`, `volume` for each asset.
+- Initial trading amount of `10000`.
+- Commission Fee of `0.25`basis points and the Transaction Factor Remainder `TRF` Model.
+- Learning Rate of `0.0001`.
+- Number of episodes of `35`.
+- Batch size of `64`.
+
 ## Prerequisites
 
 [Poetry](https://python-poetry.org/docs/) a tool for dependency management and packaging in Python.
@@ -91,3 +104,6 @@ $ poetry run jupyter notebook
 ```
 $ poetry run pip3 freeze > requirements.txt
 ```
+
+## Acknowledgements
+Special thanks to WorldQuant University for assisting us in the creation of this project towards an MSc in Financial Engineering.

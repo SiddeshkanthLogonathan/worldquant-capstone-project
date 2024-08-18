@@ -199,15 +199,6 @@ class ConvolutionalEmbedding(nn.Module):
         conv_tokens = self.convolution(X)
         return conv_tokens
 
-class ConvolutionalEmbedding(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size=(1,1)):
-        super(ConvolutionalEmbedding, self).__init__()
-        self.convolution = nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size)
-
-    def forward(self, X):
-        conv_tokens = self.convolution(X)
-        return conv_tokens
-
 class MultiPeriodConvAttentionNetwork(nn.Module):
     def __init__(self, num_stocks, num_features, W, T, num_layers=10, device="cpu"):
         super(MultiPeriodConvAttentionNetwork, self).__init__()

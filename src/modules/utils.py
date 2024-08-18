@@ -121,3 +121,8 @@ def apply_portfolio_noise(portfolio, epsilon=0.0):
             new_portfolio[t,i] -= difference
             new_portfolio[t,target_index] += difference
     return new_portfolio
+
+def calculate_max_draw_down(portfolio_values):
+    running_max = np.maximum.accumulate(portfolio_values)
+    drawdowns = (portfolio_values - running_max) / running_max
+    return drawdowns
