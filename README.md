@@ -1,20 +1,60 @@
 # WorldQuant University Capstone Project: Deep Reinforcement Learning in Multi-period portfolio optimization
 
 ## Abstract
+   
+In our paper, we apply Deep Reinforcement Learning approaches to portfolio optimization under multi-period cases and compare the deep reinforcement learning approaches with the classical convex optimization approach. We demonstrated that it is indeed possible to obtain a more realistic portfolio construction that allows for adjustments and optimization across multiple periods, resulting in the portfolio design process capable of adapting to changing market conditions, economic events, and evolving investment opportunities which are better models of how the financial market works, ensuring opportunities are not missed until too late.
 
-Multi-period portfolio optimization is an extension of the single-period MVO prob-
-lem. It’s closer to the real deal since multi-period portfolio optimization takes different
-time scales, transaction costs, time-varying return forecasts into consideration. Classi-
-cal solution to the multi-period portfolio optimization is solving a convex optimization
-problem. But with the reduction of computing costs and the rapid development of
-artificial intelligence, leverage the deep learning methods in the multi-period portfolio
-optimization problem is a possible alternative solution. In our paper, we apply deep
-deep learning methods like neural network and deep reinforcement learning approach
-to portfolio optimization under multi-period case and comparing the deep learning
-approaches with the classical convex optimization approach.
+## Portfolio Performances
+
+### Multi-Period Portfolio Optimization using Deep RL
+Below are a display of the DRL Portfolios against the Index and a classical Markowitz's Mean Variance strategy for two markets, namely the Dow Jones Industrial Average (DJIA) and the French Market Index (CAC40). The following models are used in the comparison:
+- Deep Reinforcement Learning Agent with a Multi-Period extension of the Ensemble of Identical Independent Evaluators (EIIE) policy function.
+- Deep Reinforcement Learning Agent with a Hybrid-Transformer (Convolutional Embeddings) policy function.
+- Stock Market Index / Benchmark
+- Harry Markowitz's Multi-period Mean Variance Optimization.
+
+1. Portfolio Performance on the DJIA
+
+<img title="DJIA" alt="" src="src/results/portfolio_performances/djia_performances.png">
+
+#### Performance Metrics:
+
+|  | DJIA_Index |	MV | DRL_EIIE | DRL_HYBRID_TRANSFORMER |
+| :----: | :----: | :--: | :------: | :-------: |
+| fAPV |	1.559775 |	1.277676 | 3.885800 | 4.084288 |
+| SR |	0.567364 |	0.279325 | 1.141641 | 1.181615 |
+| MDD |	-0.216025 |	-0.294017 | -0.342277 | -0.360279 |
 
 
-## Prequiates
+2. Portfolio Performances on the (CAC-40)
+
+<img title="CAC40" alt="" src="src/results/portfolio_performances/cac40_performances.png">
+
+#### Performance Metrics:
+
+|  | CAC40_Index |	MV | DRL_EIIE | DRL_HYBRID_TRANSFORMER |
+| :----: | :----: | :--: | :------: | :-------: |
+| fAPV |	1.492397 |	1.365279 | 2.732473 | 2.825879 |
+| SR |	0.475353 |	0.325570 | 0.760835 | 0.784852 |
+| MDD |	-0.252401 |	-0.282496 | -0.526076 | -0.510508 |
+
+
+
+### Multi-Period Optimization vs. Single-Period Optimization
+Following below we also demonstrate the difference between a Portfolio of Multi-Period Optimization and of a Single Period Optimization using Harry Markowitz's Mean Variance Convex Optimization using the assets in the S&P100 against the Benchmark itself.
+
+<img title="MPO_VS_SPO" alt="" src="src/results/portfolio_performances/mpo_vs_spo.png">
+
+#### Performance Metrics:
+
+|   | MPO | SPO | SP100 |
+| :----: | :----: | :--: | :------: | 
+| fAPV | 1.714606 |	1.729492 |	2.123633 |
+| SR | 0.353029 |	0.358771 |	0.942288 |
+| MDD | -0.356124 |	-0.371382 |	-0.143636 |
+
+
+## Prerequisites
 
 [Poetry](https://python-poetry.org/docs/) a tool for dependency management and packaging in Python.
 
