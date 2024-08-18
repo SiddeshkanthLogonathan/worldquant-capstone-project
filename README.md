@@ -34,9 +34,9 @@ Below are a display of the DRL Portfolios against the Index and a classical Mark
 
 |  | CAC40_Index |	MV | DRL_EIIE | DRL_HYBRID_TRANSFORMER |
 | :----: | :----: | :--: | :------: | :-------: |
-| fAPV |	1.492397 |	1.365279 | 3.131037 | 2.825879 |
-| SR |	0.475353 |	0.325570 | 0.846357 | 0.784852 |
-| MDD |	-0.252401 |	-0.282496 | -0.511276 | -0.510508 |
+| fAPV |	1.492397 |	1.365279 | 2.732473 | 3.131037 |
+| SR |	0.475353 |	0.325570 | 0.760835 | 0.846357 |
+| MDD |	-0.252401 |	-0.282496 | -0.526076 | -0.511276 |
 
 
 ### Multi-Period Optimization vs. Single-Period Optimization
