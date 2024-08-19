@@ -21,9 +21,9 @@ Below are a display of the DRL Portfolios against the Index and a classical Mark
 
 |  | DJIA_Index |	MV | DRL_EIIE | DRL_HYBRID_TRANSFORMER |
 | :----: | :----: | :--: | :------: | :-------: |
-| fAPV |	1.559775 |	1.277676 | 3.885800 | 4.084288 |
-| SR |	0.567364 |	0.279325 | 1.141641 | 1.181615 |
-| MDD |	-0.216025 |	-0.294017 | -0.342277 | -0.360279 |
+| fAPV |	1.559775 |	1.277676 | 3.881183 | 4.092379 |
+| SR |	0.567364 |	0.279325 | 1.140682 | 1.182365 |
+| MDD |	-0.216025 |	-0.294017 | -0.342434 | -0.360438 |
 
 
 2. Portfolio Performances on the (CAC-40)
@@ -34,9 +34,9 @@ Below are a display of the DRL Portfolios against the Index and a classical Mark
 
 |  | CAC40_Index |	MV | DRL_EIIE | DRL_HYBRID_TRANSFORMER |
 | :----: | :----: | :--: | :------: | :-------: |
-| fAPV |	1.492397 |	1.365279 | 2.732473 | 3.131037 |
-| SR |	0.475353 |	0.325570 | 0.760835 | 0.846357 |
-| MDD |	-0.252401 |	-0.282496 | -0.526076 | -0.511276 |
+| fAPV |	1.492397 |	1.365279 | 2.731318 | 3.131012 |
+| SR |	0.475353 |	0.325570 | 0.760526 | 0.846373 |
+| MDD |	-0.252401 |	-0.282496 | -0.526148 | -0.511261 |
 
 
 ### Multi-Period Optimization vs. Single-Period Optimization
@@ -65,6 +65,7 @@ The most important parameters are:
 - Learning Rate of `0.0001`.
 - Number of episodes of `35`.
 - Batch size of `64`.
+- Risk-free rate is assumed to be `0`
 
 ## Prerequisites
 
