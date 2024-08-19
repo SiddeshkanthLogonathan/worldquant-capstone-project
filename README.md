@@ -65,7 +65,7 @@ The most important parameters are:
 - Learning Rate of `0.0001`.
 - Number of episodes of `35`.
 - Batch size of `64`.
-- Risk-free rate is assumed to be `0`
+- Risk-free rate is assumed to be `0%`.
 
 ## Prerequisites
 
